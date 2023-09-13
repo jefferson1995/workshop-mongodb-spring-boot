@@ -32,5 +32,11 @@ public class UserService {
         return new UserDTO(user);
     }
 
+    @Transactional
+    public void delete(String id){
+        findById(id);
+        userRepository.deleteById(id);
+    }
+
 
 }
