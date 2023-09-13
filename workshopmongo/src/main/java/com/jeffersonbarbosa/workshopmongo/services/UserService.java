@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -36,6 +38,32 @@ public class UserService {
     public void delete(String id){
         findById(id);
         userRepository.deleteById(id);
+    }
+
+    @Transactional
+    public UserDTO update(String id, UserDTO obj){
+        try {
+
+           final Optional<User> objUser = userRepository.findById(id);
+
+            User entity = objUser.get();
+            entity.setId(id);
+            updateData(entity, obj);
+            userRepository.save(entity);
+
+            return new UserDTO(entity);
+
+        }catch (NoSuchElementException e){
+            throw new ObjectNotFoundException("User não encontrado!");
+        }
+    }
+
+
+    //Método para atualizar usuário
+
+    public void updateData(User entity, UserDTO obj){
+        entity.setName(obj.getName());
+        entity.setEmail(obj.getEmail());
     }
 
 
