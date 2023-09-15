@@ -1,6 +1,7 @@
 package com.jeffersonbarbosa.workshopmongo.resources;
 
 import com.jeffersonbarbosa.workshopmongo.dto.UserDTO;
+import com.jeffersonbarbosa.workshopmongo.entities.Post;
 import com.jeffersonbarbosa.workshopmongo.entities.User;
 import com.jeffersonbarbosa.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,13 @@ public class UserResource {
         UserDTO newDTO = userService.update(id, objDTO);
         return ResponseEntity.ok().body(newDTO);
     }
+
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        User obj = userService.findById(id);
+        return ResponseEntity.ok().body(obj.getPosts());
+    }
+
+
 
 }
