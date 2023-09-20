@@ -1,5 +1,5 @@
 # workshop-mongodb-spring-boot
-[![NPM](https://img.shields.io/npm/l/react)(https://github.com/jefferson1995/workshop-mongodb-spring-boot/blob/main/LICENSE.txt) 
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/jefferson1995/workshop-mongodb-spring-boot/blob/main/LICENSE.txt) 
 
 # Sobre o projeto
 
