@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "16ba009f-6786-4815-9df0-fb7b77aa5453",
+		"name": "Projeto MongoDB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24512307",
+		"_collection_link": "https://restless-crater-230845.postman.co/workspace/Udemy---Projetos~1efb2b46-c78a-442f-b938-b3aeb849531d/collection/24512307-16ba009f-6786-4815-9df0-fb7b77aa5453?action=share&source=collection_link&creator=24512307"
+	},
+	"item": [
+		{
+			"name": "User - findAll",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - Insert",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"_id\": {\r\n    \"$oid\": null\r\n  },\r\n  \"name\": \"josé 2\",\r\n  \"email\":\"jose@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"barbosa santos\",\r\n  \"email\":\"jose@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/users/6501a2dc9c6c73603b0c6faa",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"6501a2dc9c6c73603b0c6faa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - findById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/650ac804dceba63fb39b0c14",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"650ac804dceba63fb39b0c14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post - findById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/posts/6504420b3048617eaed1154c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts",
+						"6504420b3048617eaed1154c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post - findByTitle",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/posts/titlesearch?text=bom%20dia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts",
+						"titlesearch"
+					],
+					"query": [
+						{
+							"key": "text",
+							"value": "bom%20dia"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post - fullSearch",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/posts/fullsearch?text=&minDate=2023-03-19&maxDate=2023-03-23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts",
+						"fullsearch"
+					],
+					"query": [
+						{
+							"key": "text",
+							"value": ""
+						},
+						{
+							"key": "minDate",
+							"value": "2023-03-19"
+						},
+						{
+							"key": "maxDate",
+							"value": "2023-03-23"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - findPosts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/650ac804dceba63fb39b0c14/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"650ac804dceba63fb39b0c14",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/650194a98d158d653262cf1c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"650194a98d158d653262cf1c"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
