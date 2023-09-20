@@ -2,22 +2,23 @@ package com.jeffersonbarbosa.workshopmongo.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Date;
 
 public class CommentDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String text;
-    private Instant instant;
+    private Date date;
     private AuthorDTO author;
 
     public CommentDTO(){
 
     }
 
-    public CommentDTO(String text, Instant instant, AuthorDTO author) {
+    public CommentDTO(String text, Date date, AuthorDTO author) {
         this.text = text;
-        this.instant = instant;
+        this.date = date;
         this.author = author;
     }
 
@@ -29,12 +30,12 @@ public class CommentDTO implements Serializable {
         this.text = text;
     }
 
-    public Instant getInstant() {
-        return instant;
+    public Date getDate() {
+        return date;
     }
 
-    public void setInstant(Instant instant) {
-        this.instant = instant;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public AuthorDTO getAuthor() {

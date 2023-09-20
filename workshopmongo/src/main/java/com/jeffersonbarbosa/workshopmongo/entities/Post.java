@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +20,7 @@ public class Post implements Serializable {
 
     @Id
     public String id;
-    private Instant instant;
+    private Date date;
     private String title;
     private String body;
     private AuthorDTO author;
@@ -31,9 +32,9 @@ public class Post implements Serializable {
 
     }
 
-    public Post(String id, Instant instant, String title, String body, AuthorDTO author) {
+    public Post(String id, Date date, String title, String body, AuthorDTO author) {
         this.id = id;
-        this.instant = instant;
+        this.date = date;
         this.title = title;
         this.body = body;
         this.author = author;
@@ -47,12 +48,12 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public Instant getInstant() {
-        return instant;
+    public Date getDate() {
+        return date;
     }
 
-    public void setInstant(Instant instant) {
-        this.instant = instant;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getTitle() {
