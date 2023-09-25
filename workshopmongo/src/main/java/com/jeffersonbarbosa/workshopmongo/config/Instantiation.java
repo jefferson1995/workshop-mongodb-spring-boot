@@ -9,6 +9,8 @@ import com.jeffersonbarbosa.workshopmongo.respositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -31,14 +33,19 @@ public class Instantiation implements CommandLineRunner {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         //Para limpar o banco
-        userRepository.deleteAll();
-        postRepository.deleteAll();
+        Mono<Void> deleteUsers = userRepository.deleteAll();
+        deleteUsers.subscribe();
+        Mono<Void> deletePosts = postRepository.deleteAll();
+        deletePosts.subscribe();
+
+
 
         User maria = new User(null, "Maria Brown", "maria@gmail.com");
         User alex = new User(null, "Alex Green", "alex@gmail.com");
         User bob = new User(null, "Bob Grey", "bob@gmail.com");
 
-        userRepository.saveAll(Arrays.asList(maria, alex, bob));
+        Flux<User> insertUsers = userRepository.saveAll(Arrays.asList(maria, alex, bob));
+        insertUsers.subscribe();
 
 
 
@@ -55,11 +62,13 @@ public class Instantiation implements CommandLineRunner {
         post2.getComments().add(c3);
 
 
-        postRepository.saveAll(Arrays.asList(post1, post2));
+        Flux<Post> insertPosts = postRepository.saveAll(Arrays.asList(post1, post2));
+        insertPosts.subscribe();
 
         maria.getPosts().addAll(Arrays.asList(post1, post2));
 
-        userRepository.save(maria);
+        Mono<User> insertUser = userRepository.save(maria);
+        insertUser.subscribe();
 
 
 
