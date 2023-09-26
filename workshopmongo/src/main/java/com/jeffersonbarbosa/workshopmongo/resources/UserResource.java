@@ -7,6 +7,8 @@ import com.jeffersonbarbosa.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -22,16 +24,14 @@ public class UserResource {
     UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> findAll() {
-        List<User> list = userService.findAll();
-        List<UserDTO> listDTO = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(listDTO);
+    public ResponseEntity<Flux<UserDTO>> findAll() {
+        Flux<UserDTO> listUserDTO = userService.findAll();
+        return ResponseEntity.ok().body(listUserDTO);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable String id) {
-        User obj = userService.findById(id);
-        return ResponseEntity.ok().body(new UserDTO(obj));
+    public  Mono<ResponseEntity<UserDTO>> findById(@PathVariable String id) {
+        return userService.findById(id).map(userDTO -> ResponseEntity.ok().body(userDTO));
     }
 
     @PostMapping

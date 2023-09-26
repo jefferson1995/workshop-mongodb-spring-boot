@@ -7,6 +7,8 @@ import com.jeffersonbarbosa.workshopmongo.services.exceptions.ObjectNotFoundExce
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,13 +21,13 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public Flux<UserDTO> findAll() {
+        return userRepository.findAll().map(user -> new UserDTO(user));
     }
 
-    public User findById(String id) {
-        Optional<User> obj = userRepository.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Nenhum usuário encontrado."));
+    public Mono<UserDTO> findById(String id) {
+        return userRepository.findById(id).map(existingUser -> new UserDTO(existingUser))
+                .switchIfEmpty(Mono.error(new ObjectNotFoundException("Nenhum usuário encontrado!")));
     }
     @Transactional
     public UserDTO insert(UserDTO objDTO){

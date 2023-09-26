@@ -2,13 +2,11 @@ package com.jeffersonbarbosa.workshopmongo.entities;
 
 import com.jeffersonbarbosa.workshopmongo.dto.AuthorDTO;
 import com.jeffersonbarbosa.workshopmongo.dto.CommentDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
