@@ -43,9 +43,8 @@ public class UserResource {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> delete(@PathVariable String id) {
-        userService.delete(id);
-        return ResponseEntity.noContent().build();
+    public Mono<ResponseEntity<Void>> delete(@PathVariable String id) {
+       return userService.delete(id).then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 
     @PutMapping(value = "/{id}")

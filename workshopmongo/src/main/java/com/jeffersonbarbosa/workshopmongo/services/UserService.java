@@ -38,9 +38,10 @@ public class UserService {
     }
 
     @Transactional
-    public void delete(String id) {
-        findById(id);
-        userRepository.deleteById(id);
+    public Mono<Void> delete(String id) {
+        return userRepository.findById(id)
+                .switchIfEmpty(Mono.error(new ObjectNotFoundException("Nenhum usuário encontrado!")))
+                .flatMap(existingUser -> userRepository.delete(existingUser));
     }
 
     /*
