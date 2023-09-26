@@ -29,41 +29,38 @@ public class UserService {
         return userRepository.findById(id).map(existingUser -> new UserDTO(existingUser))
                 .switchIfEmpty(Mono.error(new ObjectNotFoundException("Nenhum usuário encontrado!")));
     }
+
     @Transactional
-    public Mono<UserDTO> insert(UserDTO objDTO){
+    public Mono<UserDTO> insert(UserDTO objDTO) {
         User user = new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
         Mono<UserDTO> result = userRepository.save(user).map(UserReturn -> new UserDTO(UserReturn));
         return result;
     }
 
     @Transactional
-    public void delete(String id){
+    public void delete(String id) {
         findById(id);
         userRepository.deleteById(id);
     }
 
+    /*
+        flatMap -> permitir que possa transformar uma ou mais streams em uma nova stream
+     */
     @Transactional
-    public UserDTO update(String id, UserDTO obj){
-        try {
-
-           final Optional<User> objUser = userRepository.findById(id);
-
-            User entity = objUser.get();
-            entity.setId(id);
-            updateData(entity, obj);
-            userRepository.save(entity);
-
-            return new UserDTO(entity);
-
-        }catch (NoSuchElementException e){
-            throw new ObjectNotFoundException("User não encontrado!");
-        }
+    public Mono<UserDTO> update(String id, UserDTO obj) {
+        return userRepository.findById(id)
+                .flatMap(existingUser -> {
+                    updateData(existingUser, obj);
+                    return userRepository.save(existingUser);
+                })
+                .map(user -> new UserDTO(user))
+                .switchIfEmpty(Mono.error(new ObjectNotFoundException("Nenhum usuário encontrado!")));
     }
 
 
     //Método para atualizar usuário
 
-    public void updateData(User entity, UserDTO obj){
+    public void updateData(User entity, UserDTO obj) {
         entity.setName(obj.getName());
         entity.setEmail(obj.getEmail());
     }

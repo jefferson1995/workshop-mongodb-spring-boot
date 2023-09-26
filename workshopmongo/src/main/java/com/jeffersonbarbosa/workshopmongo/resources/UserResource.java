@@ -49,9 +49,9 @@ public class UserResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@RequestBody UserDTO objDTO, @PathVariable String id){
-        UserDTO newDTO = userService.update(id, objDTO);
-        return ResponseEntity.ok().body(newDTO);
+    public Mono<ResponseEntity<UserDTO>> update(@PathVariable String id, @RequestBody UserDTO objDTO){
+        return userService.update(id, objDTO)
+                .map(userUpdateDTO -> ResponseEntity.ok().body(userUpdateDTO));
     }
 
     @GetMapping(value = "/{id}/posts")
