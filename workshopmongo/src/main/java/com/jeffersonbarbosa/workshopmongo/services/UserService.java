@@ -30,10 +30,10 @@ public class UserService {
                 .switchIfEmpty(Mono.error(new ObjectNotFoundException("Nenhum usuário encontrado!")));
     }
     @Transactional
-    public UserDTO insert(UserDTO objDTO){
+    public Mono<UserDTO> insert(UserDTO objDTO){
         User user = new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
-        userRepository.save(user);
-        return new UserDTO(user);
+        Mono<UserDTO> result = userRepository.save(user).map(UserReturn -> new UserDTO(UserReturn));
+        return result;
     }
 
     @Transactional

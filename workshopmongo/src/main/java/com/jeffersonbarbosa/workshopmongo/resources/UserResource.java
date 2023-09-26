@@ -7,6 +7,7 @@ import com.jeffersonbarbosa.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -35,10 +36,10 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> insert(@RequestBody UserDTO objDTO) {
-        UserDTO newDTO = userService.insert(objDTO);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDTO.getId()).toUri();
-        return ResponseEntity.created(uri).body(newDTO);
+    public Mono<ResponseEntity<UserDTO>> insert(@RequestBody UserDTO objDTO, UriComponentsBuilder builder) {
+        return userService.insert(objDTO)
+                .map(newUserDTO -> ResponseEntity.created(builder.path("/users/{id}").buildAndExpand(newUserDTO.getId()).toUri())
+                        .body(newUserDTO));
     }
 
     @DeleteMapping(value = "/{id}")
