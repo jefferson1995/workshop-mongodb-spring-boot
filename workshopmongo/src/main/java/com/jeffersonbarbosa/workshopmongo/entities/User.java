@@ -19,8 +19,7 @@ public class User implements Serializable {
     private String name;
     private String email;
 
-    @DBRef(lazy = true) //-> referência da coleção // lazy para carregar somente quando necessário
-    private List<Post> posts = new ArrayList<>();
+
 
     public User() {
 
@@ -56,13 +55,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public List<Post> getPosts() {
-        return posts;
-    }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -5,6 +5,7 @@ import com.jeffersonbarbosa.workshopmongo.dto.CommentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -24,6 +25,9 @@ public class Post implements Serializable {
     private String title;
     private String body;
     private AuthorDTO author;
+
+    @DocumentReference  //referencia manual
+    private User user;
 
     private List<CommentDTO> comments = new ArrayList<>();
 
@@ -80,6 +84,14 @@ public class Post implements Serializable {
         this.author = author;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public List<CommentDTO> getComments() {
         return comments;
     }
@@ -87,6 +99,8 @@ public class Post implements Serializable {
     public void setComments(List<CommentDTO> comments) {
         this.comments = comments;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
