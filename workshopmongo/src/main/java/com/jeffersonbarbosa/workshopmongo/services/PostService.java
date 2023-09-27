@@ -4,6 +4,7 @@ import com.jeffersonbarbosa.workshopmongo.entities.Post;
 
 import com.jeffersonbarbosa.workshopmongo.respositories.PostRepository;
 import com.jeffersonbarbosa.workshopmongo.services.exceptions.ObjectNotFoundException;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -35,4 +36,7 @@ public class PostService {
         return postRepository.fullSearch(text, minDate, maxDate);
     }
 
+    public Flux<Post> findByUser(String id){
+        return postRepository.findByUser(new ObjectId(id));
+    }
 }

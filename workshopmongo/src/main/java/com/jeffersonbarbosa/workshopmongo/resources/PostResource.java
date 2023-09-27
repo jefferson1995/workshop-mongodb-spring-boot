@@ -1,6 +1,7 @@
 package com.jeffersonbarbosa.workshopmongo.resources;
 
 import com.jeffersonbarbosa.workshopmongo.entities.Post;
+import com.jeffersonbarbosa.workshopmongo.entities.User;
 import com.jeffersonbarbosa.workshopmongo.resources.util.URL;
 import com.jeffersonbarbosa.workshopmongo.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,11 @@ public class PostResource {
 
         return postService.fullSearch(text, min, max);
 
+    }
+
+    @GetMapping(value = "/{id}/users")
+    public Flux<Post> findByUser(@PathVariable String id) {
+        return postService.findByUser(id);
     }
 
 

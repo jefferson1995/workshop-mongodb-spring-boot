@@ -51,6 +51,11 @@ public class Instantiation implements CommandLineRunner {
 
         //POST
 
+        //Recupera os usuários do banco de dados
+        maria = userRepository.searchEmail(maria.getEmail()).toFuture().get();
+        alex =  userRepository.searchEmail(maria.getEmail()).toFuture().get();
+        bob = userRepository.searchEmail(maria.getEmail()).toFuture().get();
+
         Post post1 = new Post(null, sdf.parse("21/03/2023"), "Partiu viagem", "Vou viajar para São Paulo. Abraços!", new AuthorDTO(maria));
         Post post2 = new Post(null, sdf.parse("23/03/2023"), "Bom dia", "Acordei feliz hoje!", new AuthorDTO(maria));
 
@@ -62,10 +67,14 @@ public class Instantiation implements CommandLineRunner {
         post2.getComments().add(c3);
 
 
+
+        //Seta os usuários de referência nos posts
+        post1.setUser(userRepository.searchEmail(maria.getEmail()).block());
+        post2.setUser(userRepository.searchEmail(maria.getEmail()).block());
+
         Flux<Post> insertPosts = postRepository.saveAll(Arrays.asList(post1, post2));
         insertPosts.subscribe();
 
-        //maria.getPosts().addAll(Arrays.asList(post1, post2));
 
         Mono<User> insertUser = userRepository.save(maria);
         insertUser.subscribe();

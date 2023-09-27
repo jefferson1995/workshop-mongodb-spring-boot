@@ -1,6 +1,7 @@
 package com.jeffersonbarbosa.workshopmongo.respositories;
 
 import com.jeffersonbarbosa.workshopmongo.entities.Post;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,9 @@ public interface PostRepository extends ReactiveMongoRepository<Post, String> {
     @Query(value = "{ $and: [ { date: { $gte: ?1  } }, { date: { $lte: ?2 }  } ," +
             " { $or: [ { 'title': { $regex: ?0, $options: 'i' }  }, { 'body': { $regex: ?0, $options: 'i' }  }, {  'comments.text': { $regex: ?0, $options: 'i' } }  ] } ] }")
     Flux<Post> fullSearch(String text, Date minDate, Date maxDate);
+
+    @Query(value = "{'user' : ?0}")
+    Flux<Post> findByUser(ObjectId id);
 
 
 }
