@@ -7,6 +7,7 @@ import com.jeffersonbarbosa.workshopmongo.services.exceptions.ObjectNotFoundExce
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
@@ -25,7 +26,7 @@ public class PostService {
         return postRepository.findById(id).switchIfEmpty(Mono.error(new ObjectNotFoundException("Recurso não encontrado")));
     }
 
-    public List<Post> findByTitle(String text){
+    public Flux<Post> findByTitle(String text){
         return postRepository.findByTitle(text);
     }
 
