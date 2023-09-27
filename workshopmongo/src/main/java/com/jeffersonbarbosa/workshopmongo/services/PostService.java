@@ -30,7 +30,7 @@ public class PostService {
         return postRepository.findByTitle(text);
     }
 
-    public List<Post> fullSearch(String text, Date minDate, Date maxDate){
+    public Flux<Post> fullSearch(String text, Date minDate, Date maxDate){
         maxDate = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000); //adiciona mais 24 horas - considera até o final desse dia
         return postRepository.fullSearch(text, minDate, maxDate);
     }
