@@ -7,6 +7,7 @@ import com.jeffersonbarbosa.workshopmongo.services.exceptions.ObjectNotFoundExce
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 
 import java.util.Date;
@@ -20,9 +21,8 @@ public class PostService {
     PostRepository postRepository;
 
 
-    public Post findById(String id) {
-        Optional<Post> obj = postRepository.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Nenhum usuário encontrado."));
+    public Mono<Post> findById(String id) {
+        return postRepository.findById(id).switchIfEmpty(Mono.error(new ObjectNotFoundException("Recurso não encontrado")));
     }
 
     public List<Post> findByTitle(String text){

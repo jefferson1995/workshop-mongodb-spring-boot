@@ -6,6 +6,7 @@ import com.jeffersonbarbosa.workshopmongo.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.Date;
 import java.util.List;
@@ -18,9 +19,8 @@ public class PostResource {
     PostService postService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Post> findById(@PathVariable String id){
-        Post obj = postService.findById(id);
-        return ResponseEntity.ok().body(obj);
+    public Mono<ResponseEntity<Post>> findById(@PathVariable String id){
+        return postService.findById(id).map(post -> ResponseEntity.ok().body(post));
     }
 
     @GetMapping(value = "/titlesearch")
