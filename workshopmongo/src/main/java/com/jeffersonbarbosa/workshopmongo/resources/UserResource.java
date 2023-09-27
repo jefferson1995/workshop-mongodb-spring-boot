@@ -53,11 +53,14 @@ public class UserResource {
                 .map(userUpdateDTO -> ResponseEntity.ok().body(userUpdateDTO));
     }
 
+    /*
     @GetMapping(value = "/{id}/posts")
     public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
         User obj = userService.findById(id);
         return ResponseEntity.ok().body(obj.getPosts());
     }
+
+     */
 
 
 

@@ -19,25 +19,25 @@ public class PostResource {
     PostService postService;
 
     @GetMapping(value = "/{id}")
-    public Mono<ResponseEntity<Post>> findById(@PathVariable String id){
-        return postService.findById(id).map(post -> ResponseEntity.ok().body(post));
+    public Mono<Post> findById(@PathVariable String id){
+        return postService.findById(id);
     }
 
     @GetMapping(value = "/titlesearch")
-    public Flux<ResponseEntity<Post>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text){
+    public Flux<Post> findByTitle(@RequestParam(value = "text", defaultValue = "") String text){
         text = URL.decodeParam(text);
-        return postService.findByTitle(text).map(returnTitle -> ResponseEntity.ok().body(returnTitle));
+        return postService.findByTitle(text);
     }
 
     @GetMapping(value = "/fullsearch")
-    public Flux<ResponseEntity<Post>> fullSearch(@RequestParam(value = "text", defaultValue = "") String text,
+    public Flux<Post> fullSearch(@RequestParam(value = "text", defaultValue = "") String text,
                                                  @RequestParam(value = "minDate", defaultValue = "") String minDate,
                                                  @RequestParam(value = "maxDate", defaultValue = "") String maxDate){
         text = URL.decodeParam(text);
         Date min = URL.convertDate(minDate, new Date(0L)); //primeira data 1970
         Date max = URL.convertDate(maxDate, new Date());
 
-        return postService.fullSearch(text, min, max).map(fullPost -> ResponseEntity.ok().body(fullPost));
+        return postService.fullSearch(text, min, max);
 
     }
 
