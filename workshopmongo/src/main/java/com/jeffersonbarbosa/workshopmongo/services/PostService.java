@@ -24,10 +24,9 @@ public class PostService {
     PostRepository postRepository;
 
 
-    public Mono<PostDTO> findById(String id) throws ExecutionException, InterruptedException {
+    public Mono<PostDTO> findById(String id)  {
         return postRepository.findById(id)
-                .map(returnPost -> new PostDTO(returnPost))
-                .switchIfEmpty(Mono.error(new ObjectNotFoundException("Recurso não encontrado")));
+                .map(returnPost -> new PostDTO(returnPost)).switchIfEmpty(Mono.error(new ObjectNotFoundException("Recurso não encontrado")));
     }
 
     public Flux<PostDTO> findByTitle(String text) {
