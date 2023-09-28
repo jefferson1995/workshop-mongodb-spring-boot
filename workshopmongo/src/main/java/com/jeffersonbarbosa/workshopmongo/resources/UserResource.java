@@ -15,6 +15,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,7 +32,7 @@ public class UserResource {
     }
 
     @GetMapping(value = "/{id}")
-    public  Mono<ResponseEntity<UserDTO>> findById(@PathVariable String id) {
+    public Mono<ResponseEntity<UserDTO>> findById(@PathVariable String id) throws InterruptedException, ExecutionException {
         return userService.findById(id).map(userDTO -> ResponseEntity.ok().body(userDTO));
     }
 
@@ -43,21 +44,15 @@ public class UserResource {
     }
 
     @DeleteMapping(value = "/{id}")
-    public Mono<ResponseEntity<Void>> delete(@PathVariable String id) {
-       return userService.delete(id).then(Mono.just(ResponseEntity.noContent().<Void>build()));
+    public Mono<ResponseEntity<Void>> delete(@PathVariable String id) throws InterruptedException, ExecutionException {
+        return userService.delete(id).then(Mono.just(ResponseEntity.noContent().<Void>build()));
     }
 
     @PutMapping(value = "/{id}")
-    public Mono<ResponseEntity<UserDTO>> update(@PathVariable String id, @RequestBody UserDTO objDTO){
+    public Mono<ResponseEntity<UserDTO>> update(@PathVariable String id, @RequestBody UserDTO objDTO) throws InterruptedException, ExecutionException {
         return userService.update(id, objDTO)
                 .map(userUpdateDTO -> ResponseEntity.ok().body(userUpdateDTO));
     }
-
-
-
-
-
-
 
 
 }

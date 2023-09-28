@@ -1,6 +1,7 @@
 package com.jeffersonbarbosa.workshopmongo.services;
 
-import com.jeffersonbarbosa.workshopmongo.entities.Post;
+import com.jeffersonbarbosa.workshopmongo.dto.PostDTO;
+
 
 import com.jeffersonbarbosa.workshopmongo.respositories.PostRepository;
 import com.jeffersonbarbosa.workshopmongo.services.exceptions.ObjectNotFoundException;
@@ -13,8 +14,8 @@ import reactor.core.publisher.Mono;
 
 
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class PostService {
@@ -23,20 +24,22 @@ public class PostService {
     PostRepository postRepository;
 
 
-    public Mono<Post> findById(String id) {
-        return postRepository.findById(id).switchIfEmpty(Mono.error(new ObjectNotFoundException("Recurso não encontrado")));
+    public Mono<PostDTO> findById(String id) throws ExecutionException, InterruptedException {
+        return postRepository.findById(id)
+                .map(returnPost -> new PostDTO(returnPost))
+                .switchIfEmpty(Mono.error(new ObjectNotFoundException("Recurso não encontrado")));
     }
 
-    public Flux<Post> findByTitle(String text){
-        return postRepository.findByTitle(text);
+    public Flux<PostDTO> findByTitle(String text) {
+        return postRepository.findByTitle(text).map(returnPost -> new PostDTO(returnPost));
     }
 
-    public Flux<Post> fullSearch(String text, Date minDate, Date maxDate){
+    public Flux<PostDTO> fullSearch(String text, Date minDate, Date maxDate) {
         maxDate = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000); //adiciona mais 24 horas - considera até o final desse dia
-        return postRepository.fullSearch(text, minDate, maxDate);
+        return postRepository.fullSearch(text, minDate, maxDate).map(returnPost -> new PostDTO(returnPost));
     }
 
-    public Flux<Post> findByUser(String id){
-        return postRepository.findByUser(new ObjectId(id));
+    public Flux<PostDTO> findByUser(String id) {
+        return postRepository.findByUser(new ObjectId(id)).map(returnPost -> new PostDTO(returnPost));
     }
 }

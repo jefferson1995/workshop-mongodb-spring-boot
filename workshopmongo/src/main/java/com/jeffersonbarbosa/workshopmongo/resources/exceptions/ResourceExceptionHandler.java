@@ -12,11 +12,11 @@ import java.time.Instant;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
+
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, ServerHttpRequest request){
-        String error = "Resource not found";
+    public ResponseEntity<StandardError> resourceNotFound(ObjectNotFoundException e, ServerHttpRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
-        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getURI().toString());
+        StandardError err = new StandardError(Instant.now(), status.value(), e.getMessage(), request.getURI().toString());
         return ResponseEntity.status(status).body(err);
     }
 

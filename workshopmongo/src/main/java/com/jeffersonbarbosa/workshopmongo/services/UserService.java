@@ -10,10 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class UserService {
@@ -25,7 +22,7 @@ public class UserService {
         return userRepository.findAll().map(user -> new UserDTO(user));
     }
 
-    public Mono<UserDTO> findById(String id) {
+    public Mono<UserDTO> findById(String id) throws InterruptedException, ExecutionException {
         return userRepository.findById(id).map(existingUser -> new UserDTO(existingUser))
                 .switchIfEmpty(Mono.error(new ObjectNotFoundException("Nenhum usuário encontrado!")));
     }
@@ -38,7 +35,7 @@ public class UserService {
     }
 
     @Transactional
-    public Mono<Void> delete(String id) {
+    public Mono<Void> delete(String id) throws InterruptedException, ExecutionException {
         return userRepository.findById(id)
                 .switchIfEmpty(Mono.error(new ObjectNotFoundException("Nenhum usuário encontrado!")))
                 .flatMap(existingUser -> userRepository.delete(existingUser));
@@ -48,7 +45,7 @@ public class UserService {
         flatMap -> permitir que possa transformar uma ou mais streams em uma nova stream
      */
     @Transactional
-    public Mono<UserDTO> update(String id, UserDTO obj) {
+    public Mono<UserDTO> update(String id, UserDTO obj) throws InterruptedException, ExecutionException {
         return userRepository.findById(id)
                 .flatMap(existingUser -> {
                     updateData(existingUser, obj);
